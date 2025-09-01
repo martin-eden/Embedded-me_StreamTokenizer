@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-31
+  Last mod.: 2025-09-01
 */
 
 #include <me_BaseTypes.h>
@@ -14,9 +14,9 @@ namespace me_StreamTokenizer
   class TVomitableInputStream : public IInputStream
   {
     public:
-      void Init(IInputStream * BaseInputStream);
+      void Init(IInputStream *);
 
-      TBool Read(TUnit * Unit) override;
+      TBool Read(TUnit *) override;
 
       TBool Vomit();
 
