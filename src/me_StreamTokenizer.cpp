@@ -8,6 +8,10 @@
 #include <me_StreamTokenizer.h>
 
 #include <me_BaseTypes.h>
+#include <me_BaseInterfaces.h>
+
+#include <me_StreamsCollection.h>
+#include <me_AddrsegTools.h>
 
 using namespace me_StreamTokenizer;
 
@@ -90,6 +94,31 @@ TBool TStreamTokenizer::WriteNonSpaces(
   }
 
   return Result;
+}
+
+/*
+  [Handy] Write entity to address segment
+*/
+TBool me_StreamTokenizer::GetEntity(
+  TAddressSegment * BuffSeg,
+  IInputStream * InputStream
+)
+{
+  me_StreamsCollection::TWorkmemOutputStream BuffStreamOut;
+  me_StreamTokenizer::TStreamTokenizer Tokenizer;
+
+  if (!BuffStreamOut.Init(*BuffSeg))
+    return false;
+
+  Tokenizer.Init(InputStream);
+
+  if (!Tokenizer.WriteEntity(&BuffStreamOut))
+    return false;
+
+  if (!BuffStreamOut.IsFull())
+    me_AddrsegTools::ChopRightAt(BuffSeg, BuffStreamOut.GetWriteAddr());
+
+  return true;
 }
 
 // ( Freetown

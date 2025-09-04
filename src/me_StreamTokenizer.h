@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-01
+  Last mod.: 2025-09-04
 */
 
 #include <me_BaseTypes.h>
@@ -44,6 +44,9 @@ namespace me_StreamTokenizer
       TBool WriteNonSpaces(IOutputStream *);
   };
 
+  // [Handy] Get entity and write it to given memory segment
+  TBool GetEntity(TAddressSegment * MemSeg, IInputStream * InputStream);
+
   // Freetown
   namespace Freetown
   {
@@ -53,4 +56,5 @@ namespace me_StreamTokenizer
 
 /*
   2025-08-31
+  2025-09-04
 */
