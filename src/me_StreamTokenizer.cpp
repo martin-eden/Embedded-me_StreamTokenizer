@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-01
+  Last mod.: 2025-09-04
 */
 
 #include <me_StreamTokenizer.h>
@@ -84,8 +84,7 @@ TBool TStreamTokenizer::WriteNonSpaces(
       break;
     }
 
-    if (!OutputStream->Write(Char))
-      break;
+    OutputStream->Write(Char);
 
     Result = true;
   }
@@ -115,4 +114,5 @@ TBool Freetown::IsSpace(
 /*
   2025-08-31
   2025-09-01
+  2025-09-04
 */
