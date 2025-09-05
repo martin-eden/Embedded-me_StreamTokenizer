@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-04
+  Last mod.: 2025-09-05
 */
 
 #include <me_StreamTokenizer.h>
@@ -11,7 +11,6 @@
 #include <me_BaseInterfaces.h>
 
 #include <me_StreamsCollection.h>
-#include <me_AddrsegTools.h>
 
 using namespace me_StreamTokenizer;
 
@@ -115,8 +114,7 @@ TBool me_StreamTokenizer::GetEntity(
   if (!Tokenizer.WriteEntity(&BuffStreamOut))
     return false;
 
-  if (!BuffStreamOut.IsFull())
-    me_AddrsegTools::ChopRightAt(BuffSeg, BuffStreamOut.GetWriteAddr());
+  *BuffSeg = BuffStreamOut.GetProcessedSegment();
 
   return true;
 }
@@ -144,4 +142,5 @@ TBool Freetown::IsSpace(
   2025-08-31
   2025-09-01
   2025-09-04
+  2025-09-05
 */
