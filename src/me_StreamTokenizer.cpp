@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-05
+  Last mod.: 2025-09-10
 */
 
 #include <me_StreamTokenizer.h>
@@ -10,35 +10,26 @@
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
 
-#include <me_StreamsCollection.h>
-
 using namespace me_StreamTokenizer;
 
 /*
-  Init
+  Get entity from stream
 */
-void TStreamTokenizer::Init(
-  IInputStream * BaseInputStream
+TBool me_StreamTokenizer::GetEntity(
+  IOutputStream * OutputStream,
+  IInputStream * InputStream
 )
 {
-  VomitableStream.Init(BaseInputStream);
+  TVomitableInputStream VomitableStream;
+
+  VomitableStream.Init(InputStream);
+
+  Freetown::SkipSpaces(&VomitableStream);
+
+  return Freetown::WriteNonSpaces(OutputStream, &VomitableStream);
 }
 
-/*
-  Get entity
-
-  Skip leading spaces. Write block of non-space chars.
-
-  Returns true if wrote at least one character.
-*/
-TBool TStreamTokenizer::WriteEntity(
-  IOutputStream * OutputStream
-)
-{
-  SkipSpaces();
-
-  return WriteNonSpaces(OutputStream);
-}
+// ( Freetown
 
 /*
   Skip spaces
@@ -46,15 +37,17 @@ TBool TStreamTokenizer::WriteEntity(
   Read characters from stream until non-space character or end of stream.
   Next character read will be first non-space character or end of stream.
 */
-void TStreamTokenizer::SkipSpaces()
+void Freetown::SkipSpaces(
+  TVomitableInputStream * VomitableStream
+)
 {
   TUnit Char;
 
-  while (VomitableStream.Read(&Char))
+  while (VomitableStream->Read(&Char))
   {
     if (!Freetown::IsSpace(Char))
     {
-      VomitableStream.Vomit();
+      VomitableStream->Vomit();
 
       break;
     }
@@ -69,8 +62,9 @@ void TStreamTokenizer::SkipSpaces()
 
   Returns true if at least one character was written.
 */
-TBool TStreamTokenizer::WriteNonSpaces(
-  IOutputStream * OutputStream
+TBool Freetown::WriteNonSpaces(
+  IOutputStream * OutputStream,
+  TVomitableInputStream * VomitableStream
 )
 {
   TBool Result;
@@ -78,11 +72,11 @@ TBool TStreamTokenizer::WriteNonSpaces(
 
   Result = false;
 
-  while (VomitableStream.Read(&Char))
+  while (VomitableStream->Read(&Char))
   {
     if (Freetown::IsSpace(Char))
     {
-      VomitableStream.Vomit();
+      VomitableStream->Vomit();
 
       break;
     }
@@ -94,32 +88,6 @@ TBool TStreamTokenizer::WriteNonSpaces(
 
   return Result;
 }
-
-/*
-  [Handy] Write entity to address segment
-*/
-TBool me_StreamTokenizer::GetEntity(
-  TAddressSegment * BuffSeg,
-  IInputStream * InputStream
-)
-{
-  me_StreamsCollection::TWorkmemOutputStream BuffStreamOut;
-  me_StreamTokenizer::TStreamTokenizer Tokenizer;
-
-  if (!BuffStreamOut.Init(*BuffSeg))
-    return false;
-
-  Tokenizer.Init(InputStream);
-
-  if (!Tokenizer.WriteEntity(&BuffStreamOut))
-    return false;
-
-  *BuffSeg = BuffStreamOut.GetProcessedSegment();
-
-  return true;
-}
-
-// ( Freetown
 
 /*
   Return true if character is newline or space
@@ -143,4 +111,5 @@ TBool Freetown::IsSpace(
   2025-09-01
   2025-09-04
   2025-09-05
+  2025-09-10
 */

@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-04
+  Last mod.: 2025-09-10
 */
 
 #include <me_BaseTypes.h>
@@ -27,29 +27,15 @@ namespace me_StreamTokenizer
       TBool UseUnitRead;
   };
 
-  // [Core] Input stream tokenizer
-  class TStreamTokenizer
-  {
-    public:
-      // Setup input stream
-      void Init(IInputStream *);
-
-      // Read one entity and write it to output stream
-      TBool WriteEntity(IOutputStream *);
-
-    private:
-      TVomitableInputStream VomitableStream;
-
-      void SkipSpaces();
-      TBool WriteNonSpaces(IOutputStream *);
-  };
-
-  // [Handy] Get entity and write it to given memory segment
-  TBool GetEntity(TAddressSegment * MemSeg, IInputStream * InputStream);
+  // Get entity from input stream and write it to output stream
+  TBool GetEntity(IOutputStream *, IInputStream *);
 
   // Freetown
   namespace Freetown
   {
+    void SkipSpaces(TVomitableInputStream *);
+    TBool WriteNonSpaces(IOutputStream *, TVomitableInputStream *);
+
     TBool IsSpace(TUint_1 Char);
   }
 }
@@ -57,4 +43,5 @@ namespace me_StreamTokenizer
 /*
   2025-08-31
   2025-09-04
+  2025-09-10 Interface change
 */
