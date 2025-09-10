@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-01
+  Last mod.: 2025-09-10
 */
 
 #include <me_StreamTokenizer.h>
@@ -13,7 +13,7 @@
 
 void RunCompilationTest()
 {
-  [[gnu::unused]] me_StreamTokenizer::TStreamTokenizer StreamTokenizer;
+  [[gnu::unused]] TAddress GetEntityAddr = (TAddress) &me_StreamTokenizer::GetEntity;
 }
 
 void PrintSeg(
@@ -36,9 +36,8 @@ void PrintSeg(
   Console.EndLine();
 }
 
-void WriteEntityTest()
+void GetEntityTest()
 {
-  me_StreamTokenizer::TStreamTokenizer StreamTokenizer;
   me_StreamsCollection::TWorkmemInputStream InputStream;
   me_StreamsCollection::TWorkmemOutputStream OutputStream;
 
@@ -56,16 +55,14 @@ void WriteEntityTest()
   InputStream.Init(DataInSeg);
   OutputStream.Init(DataOutSeg);
 
-  StreamTokenizer.Init(&InputStream);
-
-  while (StreamTokenizer.WriteEntity(&OutputStream))
-    PrintSeg("Output", DataOutSeg);
+  while (me_StreamTokenizer::GetEntity(&OutputStream, &InputStream))
+    PrintSeg("Output", OutputStream.GetProcessedSegment());
 }
 
 void RunTests()
 {
   RunCompilationTest();
-  WriteEntityTest();
+  GetEntityTest();
 }
 
 void setup()
