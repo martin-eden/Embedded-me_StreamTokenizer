@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-01
+  Last mod.: 2025-09-10
 */
 
 // UNUSED
@@ -59,6 +59,12 @@ TBool TPacedInputStream::SetReadTimeout_Ms(
 
 /*
   Read unit
+
+  If you're going to adopt this code, "while" loop is bad
+  thing that should be changed.
+
+  Consider using LastGoodReadTime and return false if
+  current time is too late.
 */
 TBool TPacedInputStream::Read(
   TUnit * Unit
