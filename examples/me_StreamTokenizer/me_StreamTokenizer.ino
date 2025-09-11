@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-10
+  Last mod.: 2025-09-11
 */
 
 #include <me_StreamTokenizer.h>
@@ -10,30 +10,11 @@
 #include <me_BaseTypes.h>
 #include <me_Console.h>
 #include <me_StreamsCollection.h>
+#include <me_DebugPrints.h>
 
 void RunCompilationTest()
 {
   [[gnu::unused]] TAddress GetEntityAddr = (TAddress) &me_StreamTokenizer::GetEntity;
-}
-
-void PrintSeg(
-  TAsciiz Label,
-  TAddressSegment AddrSeg
-)
-{
-  me_StreamsCollection::TWorkmemInputStream MemStream;
-  TUnit Unit;
-
-  MemStream.Init(AddrSeg);
-
-  Console.Write(Label);
-  Console.Write(" (");
-
-  while (MemStream.Read(&Unit))
-    Console.Print(Unit);
-
-  Console.Write(")");
-  Console.EndLine();
 }
 
 void GetEntityTest()
@@ -50,13 +31,19 @@ void GetEntityTest()
   TAddressSegment DataOutSeg =
     { .Addr = (TAddress) &DataOut, .Size = sizeof(DataOut) };
 
-  PrintSeg("Input", DataInSeg);
+  me_DebugPrints::PrintMemsegData("Input", DataInSeg);
 
   InputStream.Init(DataInSeg);
-  OutputStream.Init(DataOutSeg);
 
-  while (me_StreamTokenizer::GetEntity(&OutputStream, &InputStream))
-    PrintSeg("Output", OutputStream.GetProcessedSegment());
+  while (true)
+  {
+    OutputStream.Init(DataOutSeg);
+
+    if (!me_StreamTokenizer::GetEntity(&OutputStream, &InputStream))
+      break;
+
+    me_DebugPrints::PrintMemsegData("Output", OutputStream.GetProcessedSegment());
+  }
 }
 
 void RunTests()
