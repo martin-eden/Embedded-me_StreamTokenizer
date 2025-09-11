@@ -2,13 +2,15 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-10
+  Last mod.: 2025-09-11
 */
 
 #include <me_StreamTokenizer.h>
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
+
+#include <me_StreamTools.h>
 
 using namespace me_StreamTokenizer;
 
@@ -20,7 +22,7 @@ TBool me_StreamTokenizer::GetEntity(
   IInputStream * InputStream
 )
 {
-  TVomitableInputStream VomitableStream;
+  me_StreamTools::TVomitableInputStream VomitableStream;
 
   VomitableStream.Init(InputStream);
 
@@ -38,7 +40,7 @@ TBool me_StreamTokenizer::GetEntity(
   Next character read will be first non-space character or end of stream.
 */
 void Freetown::SkipSpaces(
-  TVomitableInputStream * VomitableStream
+  me_StreamTools::TVomitableInputStream * VomitableStream
 )
 {
   TUnit Char;
@@ -64,7 +66,7 @@ void Freetown::SkipSpaces(
 */
 TBool Freetown::WriteNonSpaces(
   IOutputStream * OutputStream,
-  TVomitableInputStream * VomitableStream
+  me_StreamTools::TVomitableInputStream * VomitableStream
 )
 {
   TBool Result;

@@ -2,39 +2,27 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-10
+  Last mod.: 2025-09-11
 */
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
 
+#include <me_StreamTools.h>
+
 namespace me_StreamTokenizer
 {
-  // [Internal] Input stream with Vomit()
-  class TVomitableInputStream : public IInputStream
-  {
-    public:
-      void Init(IInputStream *);
-
-      TBool Read(TUnit *) override;
-
-      TBool Vomit();
-
-    private:
-      IInputStream * InputStream;
-      TUnit UnitRead;
-      TBool HasUnitRead;
-      TBool UseUnitRead;
-  };
-
   // Get entity from input stream and write it to output stream
   TBool GetEntity(IOutputStream *, IInputStream *);
 
   // Freetown
   namespace Freetown
   {
-    void SkipSpaces(TVomitableInputStream *);
-    TBool WriteNonSpaces(IOutputStream *, TVomitableInputStream *);
+    void SkipSpaces(me_StreamTools::TVomitableInputStream *);
+    TBool WriteNonSpaces(
+      IOutputStream *,
+      me_StreamTools::TVomitableInputStream *
+    );
 
     TBool IsSpace(TUint_1 Char);
   }
@@ -44,4 +32,5 @@ namespace me_StreamTokenizer
   2025-08-31
   2025-09-04
   2025-09-10 Interface change
+  2025-09-11
 */
