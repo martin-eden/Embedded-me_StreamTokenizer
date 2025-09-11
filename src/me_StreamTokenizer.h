@@ -7,7 +7,6 @@
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
-
 #include <me_StreamTools.h>
 
 namespace me_StreamTokenizer
@@ -19,6 +18,7 @@ namespace me_StreamTokenizer
   namespace Freetown
   {
     void SkipSpaces(me_StreamTools::TVomitableInputStream *);
+
     TBool WriteNonSpaces(
       IOutputStream *,
       me_StreamTools::TVomitableInputStream *
