@@ -9,7 +9,6 @@
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
-
 #include <me_StreamTools.h>
 
 using namespace me_StreamTokenizer;
