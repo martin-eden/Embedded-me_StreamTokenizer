@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-01
+  Last mod.: 2025-09-12
 */
 
 // UNUSED
@@ -38,8 +38,6 @@ void TPacedInputStream::Init(
   InputStream = BaseInputStream;
 
   SetReadTimeout_Ms(15);
-
-  me_RunTime::Setup();
 }
 
 /*
@@ -69,6 +67,7 @@ TBool TPacedInputStream::Read(
   if (InputStream->Read(Unit))
     return true;
 
+  me_RunTime::Start();
   me_RunTime::SetTime({0, 0, 0, 0});
 
   StopTime = {0, 0, ReadTimeout_Ms, 0};
