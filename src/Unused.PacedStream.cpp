@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-12
+  Last mod.: 2025-09-20
 */
 
 // UNUSED
@@ -14,7 +14,7 @@
 #include <me_BaseInterfaces.h>
 
 #include <me_RunTime.h>
-#include <me_Timestamp.h>
+#include <me_Duration.h>
 
 // [Internal] Input stream trying to Read() for some time
 class TPacedInputStream : public IInputStream
@@ -62,7 +62,7 @@ TBool TPacedInputStream::Read(
   TUnit * Unit
 )
 {
-  me_Timestamp::TTimestamp StopTime;
+  me_Duration::TDuration StopTime;
 
   if (InputStream->Read(Unit))
     return true;
@@ -72,7 +72,7 @@ TBool TPacedInputStream::Read(
 
   StopTime = {0, 0, ReadTimeout_Ms, 0};
 
-  while (me_Timestamp::IsLessOrEqual(me_RunTime::GetTime(), StopTime))
+  while (me_Duration::IsLessOrEqual(me_RunTime::GetTime(), StopTime))
   {
     if (InputStream->Read(Unit))
       return true;
