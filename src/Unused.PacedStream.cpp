@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-20
+  Last mod.: 2025-09-24
 */
 
 // UNUSED
@@ -63,24 +63,33 @@ TBool TPacedInputStream::Read(
 )
 {
   me_Duration::TDuration StopTime;
+  TBool Result;
 
   if (InputStream->Read(Unit))
     return true;
 
+  me_RunTime::Init();
   me_RunTime::Start();
   me_RunTime::SetTime({0, 0, 0, 0});
 
   StopTime = {0, 0, ReadTimeout_Ms, 0};
 
+  Result = false;
   while (me_Duration::IsLessOrEqual(me_RunTime::GetTime(), StopTime))
   {
     if (InputStream->Read(Unit))
-      return true;
+    {
+      Result = true;
+      break;
+    }
   }
 
-  return false;
+  me_RunTime::Stop();
+
+  return Result;
 }
 
 /*
   2025-08-31
+  2025-09-24
 */
