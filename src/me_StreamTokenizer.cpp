@@ -2,14 +2,13 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-11
+  Last mod.: 2025-10-14
 */
 
 #include <me_StreamTokenizer.h>
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
-#include <me_StreamTools.h>
 
 using namespace me_StreamTokenizer;
 
@@ -18,16 +17,16 @@ using namespace me_StreamTokenizer;
 */
 TBool me_StreamTokenizer::GetEntity(
   IOutputStream * OutputStream,
-  IInputStream * InputStream
+  IInputStream * BaseInputStream
 )
 {
-  me_StreamTools::TVomitableInputStream VomitableStream;
+  TInputStream VomitableInputStream;
 
-  VomitableStream.Init(InputStream);
+  VomitableInputStream.Init(BaseInputStream);
 
-  Freetown::SkipSpaces(&VomitableStream);
+  Freetown::SkipSpaces(&VomitableInputStream);
 
-  return Freetown::WriteNonSpaces(OutputStream, &VomitableStream);
+  return Freetown::WriteNonSpaces(OutputStream, &VomitableInputStream);
 }
 
 /*

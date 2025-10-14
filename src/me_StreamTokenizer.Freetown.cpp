@@ -2,14 +2,13 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-11
+  Last mod.: 2025-10-14
 */
 
 #include <me_StreamTokenizer.h>
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
-#include <me_StreamTools.h>
 
 using namespace me_StreamTokenizer;
 
@@ -20,16 +19,16 @@ using namespace me_StreamTokenizer;
   Next character read will be first non-space character or end of stream.
 */
 void Freetown::SkipSpaces(
-  me_StreamTools::TVomitableInputStream * VomitableStream
+  TInputStream * InputStream
 )
 {
   TUnit Char;
 
-  while (VomitableStream->Read(&Char))
+  while (InputStream->Read(&Char))
   {
     if (!Freetown::IsSpace(Char))
     {
-      VomitableStream->Vomit();
+      InputStream->Unread();
 
       break;
     }
@@ -46,7 +45,7 @@ void Freetown::SkipSpaces(
 */
 TBool Freetown::WriteNonSpaces(
   IOutputStream * OutputStream,
-  me_StreamTools::TVomitableInputStream * VomitableStream
+  TInputStream * InputStream
 )
 {
   TBool Result;
@@ -54,11 +53,11 @@ TBool Freetown::WriteNonSpaces(
 
   Result = false;
 
-  while (VomitableStream->Read(&Char))
+  while (InputStream->Read(&Char))
   {
     if (Freetown::IsSpace(Char))
     {
-      VomitableStream->Vomit();
+      InputStream->Unread();
 
       break;
     }
