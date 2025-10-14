@@ -9,24 +9,29 @@
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
+#include <me_StreamTools.h>
 
 using namespace me_StreamTokenizer;
 
 /*
   Get entity from stream
+
+  Implementation reads one space after item.
+  That's how we detect item end.
+  That space is lost after end of this function.
 */
 TBool me_StreamTokenizer::GetEntity(
   IOutputStream * OutputStream,
   IInputStream * BaseInputStream
 )
 {
-  TInputStream VomitableInputStream;
+  me_StreamTools::TRereadableInputStream InputStream;
 
-  VomitableInputStream.Init(BaseInputStream);
+  InputStream.Init(BaseInputStream);
 
-  Freetown::SkipSpaces(&VomitableInputStream);
+  Freetown::SkipSpaces(&InputStream);
 
-  return Freetown::WriteNonSpaces(OutputStream, &VomitableInputStream);
+  return Freetown::WriteNonSpaces(OutputStream, &InputStream);
 }
 
 /*

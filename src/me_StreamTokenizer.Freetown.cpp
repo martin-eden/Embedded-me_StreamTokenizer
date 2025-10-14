@@ -9,6 +9,7 @@
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
+#include <me_StreamTools.h>
 
 using namespace me_StreamTokenizer;
 
@@ -19,7 +20,7 @@ using namespace me_StreamTokenizer;
   Next character read will be first non-space character or end of stream.
 */
 void Freetown::SkipSpaces(
-  TInputStream * InputStream
+  me_StreamTools::TRereadableInputStream * InputStream
 )
 {
   TUnit Char;
@@ -45,7 +46,7 @@ void Freetown::SkipSpaces(
 */
 TBool Freetown::WriteNonSpaces(
   IOutputStream * OutputStream,
-  TInputStream * InputStream
+  me_StreamTools::TRereadableInputStream * InputStream
 )
 {
   TBool Result;
