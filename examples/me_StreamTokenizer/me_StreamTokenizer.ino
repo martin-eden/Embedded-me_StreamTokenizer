@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-11-18
+  Last mod.: 2026-01-10
 */
 
 #include <me_StreamTokenizer.h>
@@ -25,8 +25,8 @@ void GetEntityTest()
   TUnit DataIn[] = { ' ', 'A', ' ', ' ', 'B', 'b', ' ', 'C' };
   TUnit DataOut[5] = { 0 };
 
-  TAddressSegment DataInSeg = AsAddrSeg_M(DataIn);
-  TAddressSegment DataOutSeg = AsAddrSeg_M(DataOut);
+  TAddressSegment DataInSeg = M_AsAddrSeg(DataIn);
+  TAddressSegment DataOutSeg = M_AsAddrSeg(DataOut);
 
   me_DebugPrints::PrintMemsegData("Input", DataInSeg);
 
